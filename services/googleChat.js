@@ -23,9 +23,7 @@ async function sendLeadAlert(lead) {
         card: {
           header: {
             title: `🎉 New Smart Stay Lead Confirmed!`,
-            subtitle: `Voucher Pass ID: ${lead.id || 'NEW'}`,
-            imageUrl: 'https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/real_estate_agent/default/24px.svg',
-            imageType: 'CIRCLE'
+            subtitle: `Voucher Pass ID: ${lead.id || 'NEW'}`
           },
           sections: [
             {
@@ -81,7 +79,11 @@ async function sendLeadAlert(lead) {
                   buttonList: {
                     buttons: [
                       {
-                        text: '💬 Chat with Lead on WhatsApp',
+                        text: 'Chat with Lead on WhatsApp',
+                        icon: {
+                          iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/120px-WhatsApp.svg.png',
+                          altText: 'WhatsApp'
+                        },
                         onClick: {
                           openLink: {
                             url: waLink
@@ -89,7 +91,11 @@ async function sendLeadAlert(lead) {
                         }
                       },
                       {
-                        text: '📞 Call Lead',
+                        text: 'Call Lead',
+                        icon: {
+                          knownIcon: 'PHONE',
+                          altText: 'Call'
+                        },
                         onClick: {
                           openLink: {
                             url: `tel:+${waPhone}`
