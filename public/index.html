@@ -65,33 +65,12 @@
         padding: 24px 0;
       }
       .app-shell {
-        border-radius: 40px;
-        border: 3.5px solid #1E293B;
-        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.08);
+        border-radius: 28px;
+        border: 2px solid #1E293B;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.06);
         min-height: 840px;
+        overflow: hidden;
       }
-    }
-
-    /* iOS Native Status Bar */
-    .ios-status-bar {
-      height: 44px;
-      padding: 12px 22px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(10, 15, 30, 0.95);
-      font-size: 13.5px;
-      font-weight: 700;
-      color: #F8FAFC;
-      letter-spacing: -0.2px;
-      z-index: 60;
-    }
-
-    .ios-status-icons {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: #F8FAFC;
     }
 
     /* Sticky Native Header */
@@ -102,7 +81,7 @@
       background: rgba(10, 15, 30, 0.94);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      padding: 12px 18px;
+      padding: 16px 18px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -973,52 +952,11 @@
     .btn-mobile-ghost:hover {
       color: var(--gold-light);
     }
-
-    /* iOS Bottom Home Bar */
-    .ios-home-bar {
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      pointer-events: none;
-    }
-
-    .home-indicator {
-      width: 130px;
-      height: 4.5px;
-      background: rgba(255, 255, 255, 0.25);
-      border-radius: 9999px;
-    }
   </style>
 </head>
 <body>
 
   <div class="app-shell">
-
-    <!-- iOS Native Status Bar -->
-    <div class="ios-status-bar">
-      <span>9:41</span>
-      <div class="ios-status-icons">
-        <!-- Cellular Signal -->
-        <svg width="15" height="11" viewBox="0 0 17 11" fill="currentColor">
-          <rect x="0" y="8" width="3" height="3" rx="0.5"/>
-          <rect x="4.5" y="5.5" width="3" height="5.5" rx="0.5"/>
-          <rect x="9" y="3" width="3" height="8" rx="0.5"/>
-          <rect x="13.5" y="0" width="3" height="11" rx="0.5"/>
-        </svg>
-        <!-- Wi-Fi -->
-        <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor">
-          <path d="M7.5 3C9.3 3 10.9 3.7 12.1 4.9L13.5 3.5C11.9 1.9 9.8 1 7.5 1S3.1 1.9 1.5 3.5L2.9 4.9C4.1 3.7 5.7 3 7.5 3ZM7.5 6C8.5 6 9.4 6.4 10.1 7.1L11.5 5.7C10.5 4.7 9.1 4 7.5 4S4.5 4.7 3.5 5.7L4.9 7.1C5.6 6.4 6.5 6 7.5 6ZM7.5 9C8 9 8.4 9.4 8.4 10C8.4 10.6 8 11 7.5 11S6.6 10.6 6.6 10C6.6 9.4 7 9 7.5 9Z"/>
-        </svg>
-        <!-- Battery -->
-        <svg width="22" height="11" viewBox="0 0 22 11" fill="none" stroke="currentColor">
-          <rect x="0.5" y="0.5" width="18" height="10" rx="3"/>
-          <rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/>
-          <path d="M20 3.5V7.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-    </div>
 
     <!-- Sticky Native App Header -->
     <header class="app-header">
@@ -1465,11 +1403,6 @@
 
       </div>
     </main>
-
-    <!-- iOS Native Home Indicator -->
-    <div class="ios-home-bar">
-      <div class="home-indicator"></div>
-    </div>
 
   </div>
 
