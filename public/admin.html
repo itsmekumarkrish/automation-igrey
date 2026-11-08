@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iGrey Smart Stay - Automation & Leads Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0B0F19;
+      --card-bg: #151D2E;
+      --accent: #10B981;
+      --accent-glow: rgba(16, 185, 129, 0.2);
+      --border: #232F48;
+      --text: #F8FAFC;
+      --muted: #94A3B8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 32px 24px; min-height: 100vh; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
+    h1 { font-size: 26px; font-weight: 800; }
+    .badge { background: rgba(16,185,129,0.15); color: var(--accent); border: 1px solid var(--accent); padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .actions { display: flex; gap: 12px; }
+    .btn { background: var(--card-bg); border: 1px solid var(--border); color: #fff; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 700; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+    .stat-label { color: var(--muted); font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .stat-val { font-size: 28px; font-weight: 800; color: #fff; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 12px; text-transform: uppercase; font-weight: 700; }
+    td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+    tr:hover { background: rgba(255,255,255,0.02); }
+    .chip { padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; display: inline-block; }
+    .chip-green { background: rgba(16,185,129,0.2); color: #10B981; }
+    .chip-blue { background: rgba(59,130,246,0.2); color: #60A5FA; }
+    .chip-gold { background: rgba(245,158,11,0.2); color: #FBBF24; }
+    .wa-link { color: #25D366; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; z-index: 100; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px; max-width: 440px; width: 90%; }
+    .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 14px; }
+    input { width: 100%; background: #0F172A; border: 1px solid var(--border); border-radius: 10px; padding: 12px; color: #fff; margin-bottom: 14px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+        <h1>iGrey Smart Stay Leads Hub</h1>
+        <span class="badge">Live Automation</span>
+      </div>
+      <p style="color: var(--muted); font-size: 14px;">WhatsApp & Web leads captured via AiSensy & interactive forms</p>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="openSendModal()">+ Send WhatsApp Template</button>
+      <a href="/api/leads/export-csv" class="btn">📥 Export CSV</a>
+      <button class="btn" onclick="fetchLeads()">🔄 Refresh</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Total Leads Captured</div>
+      <div class="stat-val" id="totalCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Calls Scheduled</div>
+      <div class="stat-val" id="callCount" style="color: #60A5FA;">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Eligibility Qualified</div>
+      <div class="stat-val" id="eligibilityCount" style="color: #10B981;">0</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Lead Name</th>
+          <th>WhatsApp Phone</th>
+          <th>Unit Preference</th>
+          <th>Budget</th>
+          <th>Preferred Slot</th>
+          <th>Action</th>
+          <th>Direct Chat</th>
+        </tr>
+      </thead>
+      <tbody id="leadsBody">
+        <tr><td colspan="8" style="text-align: center; color: var(--muted);">Loading leads...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Send Template Modal -->
+  <div class="modal" id="sendModal">
+    <div class="modal-content">
+      <div class="modal-title">Trigger Smart Stay Template</div>
+      <p style="color: var(--muted); font-size: 13px; margin-bottom: 16px;">
+        Dispatches <strong>igrey_smart_stay_v1</strong> directly via AiSensy to a lead's WhatsApp.
+      </p>
+      <input type="text" id="targetName" placeholder="Customer Name (e.g. Rahul Sharma)">
+      <input type="tel" id="targetPhone" placeholder="Mobile Number (e.g. 9876543210)">
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn" onclick="closeSendModal()">Cancel</button>
+        <button class="btn btn-primary" id="sendBtn" onclick="sendTemplate()">Send WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function fetchLeads() {
+      try {
+        const res = await fetch('/api/leads');
+        const data = await res.json();
+        const leads = data.leads || [];
+
+        document.getElementById('totalCount').innerText = leads.length;
+        document.getElementById('callCount').innerText = leads.filter(l => l.action && l.action.includes('CALL')).length;
+        document.getElementById('eligibilityCount').innerText = leads.filter(l => l.action && l.action.includes('ELIGIBILITY')).length;
+
+        const tbody = document.getElementById('leadsBody');
+        if (leads.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--muted); padding: 30px;">No leads captured yet. Submit a test form on <a href="/eligibility.html" target="_blank" style="color: var(--accent);">Eligibility Form</a> to test!</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = leads.map(l => {
+          const dateStr = l.createdAt ? new Date(l.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
+          const cleanPhone = String(l.phone || '').replace(/[^0-9]/g, '');
+          const waLink = `https://wa.me/${cleanPhone}?text=Hi%20${encodeURIComponent(l.name || 'there')}%2C%20following%20up%20from%20iGrey%20Holdings%20regarding%20Smart%20Stay.`;
+          
+          let chipClass = 'chip-green';
+          if (l.action && l.action.includes('CALL')) chipClass = 'chip-blue';
+          if (l.action && l.action.includes('KNOW_MORE')) chipClass = 'chip-gold';
+
+          return `
+            <tr>
+              <td>${dateStr}</td>
+              <td><strong>${l.name || 'Anonymous'}</strong></td>
+              <td>${l.phone || '-'}</td>
+              <td>${l.bhk || '-'}</td>
+              <td>${l.budget || '-'}</td>
+              <td>${l.preferredTime || '-'}</td>
+              <td><span class="chip ${chipClass}">${l.action || 'NEW'}</span></td>
+              <td><a href="${waLink}" target="_blank" class="wa-link">💬 Chat</a></td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function openSendModal() { document.getElementById('sendModal').style.display = 'flex'; }
+    function closeSendModal() { document.getElementById('sendModal').style.display = 'none'; }
+
+    async function sendTemplate() {
+      const name = document.getElementById('targetName').value;
+      const phone = document.getElementById('targetPhone').value;
+      if (!phone) return alert('Phone number required');
+
+      document.getElementById('sendBtn').innerText = 'Sending...';
+
+      try {
+        const res = await fetch('/api/leads/send-template', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ destination: phone, userName: name })
+        });
+        const data = await res.json();
+        alert('Dispatched! Result: ' + (data.success ? 'Success ✅' : data.reason || data.error));
+        closeSendModal();
+        fetchLeads();
+      } catch (err) {
+        alert('Error: ' + err.message);
+      } finally {
+        document.getElementById('sendBtn').innerText = 'Send WhatsApp';
+      }
+    }
+
+    fetchLeads();
+  </script>
+</body>
+</html>
+

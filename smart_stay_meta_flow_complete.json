@@ -1,0 +1,317 @@
+{
+  "version": "7.3",
+  "screens": [
+    {
+      "id": "MAIN_SCREEN",
+      "title": "iGrey SMART STAY",
+      "terminal": false,
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Welcome to SMART STAY"
+          },
+          {
+            "type": "TextBody",
+            "text": "Own a home and stay rent-free for 3 years in Bangalore."
+          },
+          {
+            "type": "TextBody",
+            "markdown": true,
+            "text": "⚡ **Limited-Period Allotment**: Only 5 exclusive units released in this phase."
+          },
+          {
+            "type": "RadioButtonsGroup",
+            "name": "main_choice",
+            "label": "How would you like to proceed?",
+            "required": true,
+            "data-source": [
+              {
+                "id": "ELIGIBILITY_SCREEN",
+                "title": "1. Check Eligibility & Pricing",
+                "description": "Choose 1/2/3 BHK units, budgets, location & reserve your priority offer."
+              },
+              {
+                "id": "HOW_IT_WORKS_SCREEN",
+                "title": "2. How It Works & Brochure (PDF)",
+                "description": "Understand the 3-year rent-free model, download official brochure & view helpline."
+              },
+              {
+                "id": "SCHEDULE_SCREEN",
+                "title": "3. Schedule a Consultation Call",
+                "description": "Book a 1-on-1 priority discussion slot with our senior property advisor."
+              }
+            ]
+          },
+          {
+            "type": "Footer",
+            "label": "Continue ➡️",
+            "on-click-action": {
+              "name": "navigate",
+              "next": {
+                "type": "screen",
+                "name": "${form.main_choice}"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "HOW_IT_WORKS_SCREEN",
+      "title": "How Smart Stay Works",
+      "terminal": false,
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "How SMART STAY Works"
+          },
+          {
+            "type": "TextBody",
+            "text": "Own a home & stay 100% rent-free for 3 full years in Bangalore."
+          },
+          {
+            "type": "TextBody",
+            "markdown": true,
+            "text": "✦ **Step 1: Pick Your Residence**\nChoose between exclusive 1, 2, or 3 BHK luxury residences in prime Bangalore.\n\n✦ **Step 2: 3 Years Rent-Free**\nMove in and live with zero monthly rent for 36 full months. No lease lock-in.\n\n✦ **Step 3: Pathway to Ownership**\nAfter 3 years, transition seamlessly into home ownership or walk away."
+          },
+          {
+            "type": "EmbeddedLink",
+            "text": "📄 Download Smart Stay Brochure (PDF)",
+            "on-click-action": {
+              "name": "open_url",
+              "url": "/assets/smart-stay-brochure.pdf"
+            }
+          },
+          {
+            "type": "TextBody",
+            "markdown": true,
+            "text": "📞 **Need immediate assistance?**\nDirect Specialist Helpline: **+91 8147172449**"
+          },
+          {
+            "type": "Footer",
+            "label": "I'm Interested - Check Eligibility ➡️",
+            "on-click-action": {
+              "name": "navigate",
+              "next": {
+                "type": "screen",
+                "name": "ELIGIBILITY_SCREEN"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "ELIGIBILITY_SCREEN",
+      "title": "Check Eligibility",
+      "terminal": true,
+      "success": true,
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Reserve Your Smart Stay Unit"
+          },
+          {
+            "type": "TextBody",
+            "text": "Select your preferences below to reserve 1 of only 5 exclusive Bangalore units."
+          },
+          {
+            "type": "RadioButtonsGroup",
+            "name": "bhk_type",
+            "label": "Select Preferred Unit",
+            "required": true,
+            "data-source": [
+              {
+                "id": "1_bhk",
+                "title": "1 BHK Luxury Unit"
+              },
+              {
+                "id": "2_bhk",
+                "title": "2 BHK Premium Unit"
+              },
+              {
+                "id": "3_bhk",
+                "title": "3 BHK Signature Unit"
+              }
+            ]
+          },
+          {
+            "type": "RadioButtonsGroup",
+            "name": "budget_range",
+            "label": "Preferred Budget",
+            "required": true,
+            "data-source": [
+              {
+                "id": "budget_40_60",
+                "title": "₹40 Lakhs - ₹60 Lakhs"
+              },
+              {
+                "id": "budget_60_85",
+                "title": "₹60 Lakhs - ₹85 Lakhs"
+              },
+              {
+                "id": "budget_85_plus",
+                "title": "₹85 Lakhs & Above"
+              }
+            ]
+          },
+          {
+            "type": "Dropdown",
+            "name": "call_slot",
+            "label": "Preferred Call Slot",
+            "required": true,
+            "data-source": [
+              {
+                "id": "morning",
+                "title": "Morning (10:00 AM - 1:00 PM)"
+              },
+              {
+                "id": "afternoon",
+                "title": "Afternoon (1:00 PM - 5:00 PM)"
+              },
+              {
+                "id": "evening",
+                "title": "Evening (5:00 PM - 8:00 PM)"
+              }
+            ]
+          },
+          {
+            "type": "TextInput",
+            "name": "full_name",
+            "label": "Your Full Name",
+            "input-type": "text",
+            "required": true,
+            "helper-text": "Enter your name for priority allotment"
+          },
+          {
+            "type": "TextInput",
+            "name": "alternate_phone",
+            "label": "Alternate Mobile (Optional)",
+            "input-type": "text",
+            "required": false,
+            "helper-text": "In case WhatsApp is unreachable"
+          },
+          {
+            "type": "TextInput",
+            "name": "email",
+            "label": "Email Address",
+            "input-type": "text",
+            "required": true,
+            "helper-text": "To receive Smart Stay allotment details"
+          },
+          {
+            "type": "TextInput",
+            "name": "preferred_location",
+            "label": "Preferred Bangalore Location",
+            "input-type": "text",
+            "required": true,
+            "helper-text": "e.g. Whitefield, Sarjapur, JP Nagar, etc."
+          },
+          {
+            "type": "Footer",
+            "label": "Reserve My Offer",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "bhk_type": "${form.bhk_type}",
+                "budget_range": "${form.budget_range}",
+                "call_slot": "${form.call_slot}",
+                "full_name": "${form.full_name}",
+                "alternate_phone": "${form.alternate_phone}",
+                "email": "${form.email}",
+                "preferred_location": "${form.preferred_location}"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "SCHEDULE_SCREEN",
+      "title": "Schedule Consultation",
+      "terminal": true,
+      "success": true,
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Priority Consultation"
+          },
+          {
+            "type": "TextBody",
+            "text": "Connect 1-on-1 with our property investment specialist to discuss available units, pricing, and 3-year rent-free terms."
+          },
+          {
+            "type": "Dropdown",
+            "name": "call_slot",
+            "label": "Which time slot works best for your call?",
+            "required": true,
+            "data-source": [
+              {
+                "id": "morning",
+                "title": "Morning (10:00 AM - 1:00 PM)"
+              },
+              {
+                "id": "afternoon",
+                "title": "Afternoon (1:00 PM - 5:00 PM)"
+              },
+              {
+                "id": "evening",
+                "title": "Evening (5:00 PM - 8:00 PM)"
+              }
+            ]
+          },
+          {
+            "type": "TextInput",
+            "name": "full_name",
+            "label": "Your Full Name",
+            "input-type": "text",
+            "required": true,
+            "helper-text": "Enter your name for discussion"
+          },
+          {
+            "type": "TextInput",
+            "name": "alternate_phone",
+            "label": "Alternate Mobile (or type 'Same')",
+            "input-type": "text",
+            "required": false,
+            "helper-text": "Contact number for consultation"
+          },
+          {
+            "type": "TextInput",
+            "name": "preferred_location",
+            "label": "Preferred Location in Bangalore (Optional)",
+            "input-type": "text",
+            "required": false,
+            "helper-text": "Area you are looking to live in"
+          },
+          {
+            "type": "Footer",
+            "label": "Confirm My Call Slot",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "call_slot": "${form.call_slot}",
+                "full_name": "${form.full_name}",
+                "alternate_phone": "${form.alternate_phone}",
+                "preferred_location": "${form.preferred_location}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+

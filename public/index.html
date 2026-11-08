@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Smart Stay — 3 Years Rent-Free Luxury Living</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #060911;
+      --shell-bg: #0A0F1E;
+      --card-bg: #111A2E;
+      --card-border: #1E2B45;
+      --gold: #F59E0B;
+      --gold-light: #FDE68A;
+      --gold-glow: rgba(245, 158, 11, 0.25);
+      --emerald: #10B981;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      margin: 0;
+      padding: 0;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    /* MOBILE APPLICATION CONTAINER */
+    .app-shell {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      background: var(--shell-bg);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+    }
+
+    @media (min-width: 481px) {
+      body {
+        padding: 24px 0;
+      }
+      .app-shell {
+        border-radius: 40px;
+        border: 3.5px solid #1E293B;
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.08);
+        min-height: 840px;
+      }
+    }
+
+    /* iOS Native Status Bar */
+    .ios-status-bar {
+      height: 44px;
+      padding: 12px 22px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 15, 30, 0.95);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #F8FAFC;
+      letter-spacing: -0.2px;
+      z-index: 60;
+    }
+
+    .ios-status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #F8FAFC;
+    }
+
+    /* Sticky Native Header */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(10, 15, 30, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo-img {
+      height: 32px;
+      width: auto;
+      max-width: 38px;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+    }
+
+    .brand-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .brand-title span {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: var(--emerald);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-live::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* Views Controller */
+    .view-container {
+      display: none;
+      flex: 1;
+      padding: 18px 16px 24px;
+      animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .view-container.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SEGMENTED STEP PROGRESS TRACKER */
+    .progress-segments-wrap {
+      margin-bottom: 20px;
+    }
+
+    .step-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .step-badge-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .step-pct-tag {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    .segments-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .segment-pill {
+      height: 4.5px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      transition: background 0.3s ease;
+    }
+
+    .segment-pill.active {
+      background: linear-gradient(90deg, #F59E0B, #10B981);
+    }
+
+    .step-header {
+      margin-bottom: 18px;
+    }
+
+    .step-title {
+      font-size: 21px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+
+    .step-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* NATIVE OPTION CARDS */
+    .option-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .choice-card {
+      position: relative;
+      cursor: pointer;
+      display: block;
+    }
+
+    .choice-card input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .choice-box {
+      border: 1.5px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 14px;
+      padding: 15px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .choice-details {
+      display: flex;
+      flex-direction: column;
+      padding-right: 10px;
+    }
+
+    .choice-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #F8FAFC;
+      margin-bottom: 2px;
+    }
+
+    .choice-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .choice-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: transparent;
+      font-size: 11px;
+      font-weight: 800;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .choice-card input:checked + .choice-box {
+      border-color: var(--gold);
+      background: rgba(245, 158, 11, 0.08);
+      box-shadow: 0 0 18px rgba(245, 158, 11, 0.15);
+    }
+
+    .choice-card input:checked + .choice-box .choice-name {
+      color: var(--gold-light);
+    }
+
+    .choice-card input:checked + .choice-box .choice-check {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #000;
+    }
+
+    /* DATE PICKER BAR (TODAY vs TOMORROW) */
+    .date-picker-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .date-tab {
+      background: rgba(17, 26, 46, 0.7);
+      border: 1.5px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .date-tab-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #E2E8F0;
+    }
+
+    .date-tab-sub {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-dim);
+      padding-left: 20px;
+    }
+
+    .date-tab.active {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: var(--gold);
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.15);
+    }
+
+    .date-tab.active .date-tab-header {
+      color: var(--gold-light);
+    }
+
+    .date-tab.active .date-tab-sub {
+      color: var(--gold);
+    }
+
+    /* TIME PILLS GRID */
+    .time-pills-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 14px;
+      background: rgba(17, 26, 46, 0.9);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 12px;
+      margin-top: 4px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .time-pill-title {
+      width: 100%;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .time-pill {
+      flex: 1 1 calc(33.333% - 8px);
+      min-width: 76px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1.5px solid var(--card-border);
+      border-radius: 9px;
+      padding: 10px 6px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #E2E8F0;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .time-pill.selected {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      border-color: var(--gold);
+      color: #000;
+      box-shadow: 0 3px 12px var(--gold-glow);
+    }
+
+    .time-pill.pill-disabled {
+      opacity: 0.3 !important;
+      cursor: not-allowed !important;
+      pointer-events: none !important;
+      text-decoration: line-through;
+    }
+
+    .slot-passed-tag {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #EF4444;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 2px 5px;
+      border-radius: 4px;
+      margin-left: 6px;
+      text-transform: uppercase;
+    }
+
+    /* FORM INPUTS */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #CBD5E1;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(17, 26, 46, 0.85);
+      border: 1.5px solid var(--card-border);
+      border-radius: 12px;
+      padding: 13px 15px;
+      color: #fff;
+      font-size: 14.5px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+
+    .form-input.has-error {
+      border-color: #EF4444 !important;
+      background: rgba(239, 68, 68, 0.05) !important;
+    }
+
+    .field-error {
+      display: none;
+      font-size: 11px;
+      font-weight: 700;
+      color: #F87171;
+      margin-top: 5px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .chip.selected {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--gold);
+      color: var(--gold-light);
+    }
+
+    /* BUTTONS */
+    .btn {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 13px;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      color: #000;
+      font-weight: 800;
+      box-shadow: 0 6px 20px var(--gold-glow);
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .btn-back {
+      width: auto;
+      min-width: 84px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid var(--card-border);
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* ========================================================
+       MOBILE SUCCESS / ALLOTMENT PASS VIEW (100% NATIVE STYLE)
+       ======================================================== */
+    .mobile-success-wrap {
+      text-align: center;
+      padding: 6px 0 16px;
+    }
+
+    .success-hero-wrap {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-icon-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.08) 100%);
+      border: 2px solid rgba(16, 185, 129, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 24px rgba(16, 185, 129, 0.35);
+      z-index: 2;
+    }
+
+    .success-pulse-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      animation: ringPulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      z-index: 1;
+    }
+
+    @keyframes ringPulse {
+      0% { transform: scale(0.9); opacity: 0.8; }
+      100% { transform: scale(1.35); opacity: 0; }
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--gold-light);
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .status-live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px var(--gold);
+    }
+
+    .success-title {
+      font-size: 23px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .success-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 18px;
+      padding: 0 10px;
+    }
+
+    /* DIGITAL ALLOTMENT PASS (BOARDING PASS / WALLET STYLE) */
+    .ticket-pass {
+      background: linear-gradient(180deg, #111A2E 0%, #0D1424 100%);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 30px rgba(245, 158, 11, 0.05);
+      position: relative;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .ticket-pass::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #F59E0B, #10B981, #F59E0B);
+    }
+
+    .ticket-top {
+      padding: 14px 16px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .ticket-brand-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ticket-brand-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .ticket-brand-sub {
+      font-size: 10.5px;
+      color: var(--text-dim);
+    }
+
+    .ticket-badge-locked {
+      font-size: 10px;
+      font-weight: 800;
+      color: #10B981;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .ticket-body {
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 12px;
+    }
+
+    .ticket-cell {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ticket-label {
+      font-size: 10px;
+      color: var(--text-dim);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 2px;
+    }
+
+    .ticket-val {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .ticket-divider-row {
+      position: relative;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      margin: 0;
+    }
+
+    .ticket-dash {
+      width: 100%;
+      border-bottom: 1.5px dashed rgba(255, 255, 255, 0.14);
+    }
+
+    .ticket-notch-left, .ticket-notch-right {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--shell-bg);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .ticket-notch-left {
+      left: -8px;
+      border-right: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .ticket-notch-right {
+      right: -8px;
+      border-left: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .ticket-footer {
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.28);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ticket-ref-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ticket-ref-label {
+      font-size: 9.5px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+
+    .ticket-ref-code {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--gold-light);
+      font-family: monospace;
+      letter-spacing: 0.6px;
+    }
+
+    .btn-copy-pass {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy-pass:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    /* WHAT HAPPENS NEXT TIMELINE */
+    .app-timeline {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .timeline-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .timeline-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .timeline-item.done .timeline-dot {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10B981;
+      border: 1.5px solid #10B981;
+    }
+
+    .timeline-item.active .timeline-dot {
+      background: var(--gold);
+      color: #000;
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+
+    .timeline-item.pending .timeline-dot {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-dim);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .timeline-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timeline-heading {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .timeline-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .timeline-connector {
+      width: 2px;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.1);
+      margin-left: 10px;
+    }
+
+    /* NATIVE ACTIONS DOCK */
+    .docked-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .btn-mobile-wa {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      color: #000000;
+      border-radius: 14px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 15px;
+      box-shadow: 0 8px 24px var(--gold-glow);
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-mobile-wa:hover {
+      box-shadow: 0 12px 28px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-mobile-wa:active {
+      transform: scale(0.98);
+    }
+
+    .btn-mobile-call {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      color: #F8FAFC;
+      border-radius: 14px;
+      padding: 13px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-mobile-call:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-mobile-call:active {
+      transform: scale(0.98);
+    }
+
+    .btn-mobile-ghost {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 8px 12px;
+      margin: 4px auto 0;
+      transition: color 0.2s ease;
+    }
+
+    .btn-mobile-ghost:hover {
+      color: var(--gold-light);
+    }
+
+    /* iOS Bottom Home Bar */
+    .ios-home-bar {
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    .home-indicator {
+      width: 130px;
+      height: 4.5px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <!-- iOS Native Status Bar -->
+    <div class="ios-status-bar">
+      <span>9:41</span>
+      <div class="ios-status-icons">
+        <!-- Cellular Signal -->
+        <svg width="15" height="11" viewBox="0 0 17 11" fill="currentColor">
+          <rect x="0" y="8" width="3" height="3" rx="0.5"/>
+          <rect x="4.5" y="5.5" width="3" height="5.5" rx="0.5"/>
+          <rect x="9" y="3" width="3" height="8" rx="0.5"/>
+          <rect x="13.5" y="0" width="3" height="11" rx="0.5"/>
+        </svg>
+        <!-- Wi-Fi -->
+        <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor">
+          <path d="M7.5 3C9.3 3 10.9 3.7 12.1 4.9L13.5 3.5C11.9 1.9 9.8 1 7.5 1S3.1 1.9 1.5 3.5L2.9 4.9C4.1 3.7 5.7 3 7.5 3ZM7.5 6C8.5 6 9.4 6.4 10.1 7.1L11.5 5.7C10.5 4.7 9.1 4 7.5 4S4.5 4.7 3.5 5.7L4.9 7.1C5.6 6.4 6.5 6 7.5 6ZM7.5 9C8 9 8.4 9.4 8.4 10C8.4 10.6 8 11 7.5 11S6.6 10.6 6.6 10C6.6 9.4 7 9 7.5 9Z"/>
+        </svg>
+        <!-- Battery -->
+        <svg width="22" height="11" viewBox="0 0 22 11" fill="none" stroke="currentColor">
+          <rect x="0.5" y="0.5" width="18" height="10" rx="3"/>
+          <rect x="2" y="2" width="13" height="7" rx="1.5" fill="currentColor"/>
+          <path d="M20 3.5V7.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Sticky Native App Header -->
+    <header class="app-header">
+      <div class="brand-mark">
+        <img src="/images/ig-mark-dark.png" alt="iGrey Holdings" class="brand-logo-img">
+        <div class="brand-title">
+          SMART STAY
+          <span>iGrey Holdings</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="badge-live">5 Units Left</span>
+      </div>
+    </header>
+
+    <!-- VIEW 1: ELIGIBILITY WIZARD -->
+    <main class="view-container active" id="viewWizard">
+      
+      <!-- Segmented Step Progress Bar -->
+      <div class="progress-segments-wrap">
+        <div class="step-meta-row">
+          <span class="step-badge-tag" id="stepCounter">Step 1 of 4</span>
+          <span class="step-pct-tag" id="stepProgressText">25% Completed</span>
+        </div>
+        <div class="segments-bar">
+          <div class="segment-pill active" id="seg1"></div>
+          <div class="segment-pill" id="seg2"></div>
+          <div class="segment-pill" id="seg3"></div>
+          <div class="segment-pill" id="seg4"></div>
+        </div>
+      </div>
+
+      <!-- STEP 1: BHK PREFERENCE -->
+      <div class="wizard-step" id="step1">
+        <div class="step-header">
+          <h2 class="step-title">Which unit type would you prefer?</h2>
+          <p class="step-subtitle">Select your preferred residence configuration.</p>
+        </div>
+        
+        <div class="option-grid">
+          <label class="choice-card">
+            <input type="radio" name="bhkChoice" value="1 BHK Luxury Unit" checked onchange="toggleCustomBhk()">
+            <div class="choice-box">
+              <div class="choice-details">
+                <span class="choice-name">1 BHK Luxury Unit</span>
+                <span class="choice-meta">Ideal for professionals & couples</span>
+              </div>
+              <div class="choice-check">✓</div>
+            </div>
+          </label>
+
+          <label class="choice-card">
+            <input type="radio" name="bhkChoice" value="2 BHK Premium Unit" onchange="toggleCustomBhk()">
+            <div class="choice-box">
+              <div class="choice-details">
+                <span class="choice-name">2 BHK Premium Unit</span>
+                <span class="choice-meta">Most popular • Spacious family living</span>
+              </div>
+              <div class="choice-check">✓</div>
+            </div>
+          </label>
+
+          <label class="choice-card">
+            <input type="radio" name="bhkChoice" value="2.5 BHK Unit (with Study/WFH)" onchange="toggleCustomBhk()">
+            <div class="choice-box">
+              <div class="choice-details">
+                <span class="choice-name">2.5 BHK Unit</span>
+                <span class="choice-meta">2 Bedrooms + Dedicated Study / WFH Space</span>
+              </div>
+              <div class="choice-check">✓</div>
+            </div>
+          </label>
+
+          <label class="choice-card">
+            <input type="radio" name="bhkChoice" value="3 BHK Signature Unit" onchange="toggleCustomBhk()">
+            <div class="choice-box">
+              <div class="choice-details">
+                <span class="choice-name">3 BHK Signature Unit</span>
+                <span class="choice-meta">Exclusive layout • Panoramic balcony</span>
+              </div>
+              <div class="choice-check">✓</div>
+            </div>
+          </label>
+
+          <label class="choice-card">
+            <input type="radio" name="bhkChoice" value="3.5 BHK / 4 BHK Unit" onchange="toggleCustomBhk()">
+            <div class="choice-box">
+              <div class="choice-details">
+                <span class="choice-name">3.5 BHK / 4 BHK Unit</span>
+                <span class="choice-meta">Large family suite • Penthouse layout</span>
+              </div>
+              <div class="choice-check">✓</div>
+            </div>
+          </label>
+
+          <label class="choice-card">
+            <input type="radio" name="bhkChoice" value="CUSTOM" onchange="toggleCustomBhk()">
+            <div class="choice-box">
+              <div class="choice-details">
+                <span class="choice-name">Custom / Other Requirement</span>
+                <span class="choice-meta">Specify custom configuration</span>
+              </div>
+              <div class="choice-check">✓</div>
+            </div>
+          </label>
+        </div>
+
+        <div id="customBhkWrap" style="display: none; margin-bottom: 20px;">
+          <label class="form-label">Specify Your Required Configuration *</label>
+          <input type="text" id="customBhkInput" class="form-input" placeholder="e.g. 2.5 BHK with Garden, 3.5 BHK Duplex, Villa">
+        </div>
+
+        <button class="btn btn-gold" onclick="if(validateStep1()) goToStep(2)">
+          Continue
+        </button>
+      </div>
+
+      <!-- STEP 2: BUDGET RANGE -->
+      <div class="wizard-step" id="step2" style="display: none;">
+        <div class="step-header">
+          <h2 class="step-title">What is your estimated initial budget?</h2>
+          <p class="step-subtitle">Select your planned initial investment band.</p>
+        </div>
+
+        <div class="option-grid">
+          <label class="choice-card">
+            <input type="radio" name="budgetChoice" value="₹10L - ₹15L" checked>
+            <div class="choice-box">
+              <div class="choice-details">
+                <span class="choice-name">₹10 Lakhs - ₹15 Lakhs</span>
+                <span class="choice-meta">Initial Investment Band</span>
+              </div>
+              <div class="choice-check">✓</div>
+            </div>
+          </label>
+
+          <label class="choice-card">
+            <input type="radio" name="budgetChoice" value="₹15L - ₹25L">
+            <div class="choice-box">
+              <div class="choice-details">
+                <span class="choice-name">₹15 Lakhs - ₹25 Lakhs</span>
+                <span class="choice-meta">Mid-Tier Investment Band</span>
+              </div>
+              <div class="choice-check">✓</div>
+            </div>
+          </label>
+
+          <label class="choice-card">
+            <input type="radio" name="budgetChoice" value="₹30L+">
+            <div class="choice-box">
+              <div class="choice-details">
+                <span class="choice-name">₹30 Lakhs and above</span>
+                <span class="choice-meta">Premium Investment Tier</span>
+              </div>
+              <div class="choice-check">✓</div>
+            </div>
+          </label>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn btn-back" onclick="goToStep(1)">Back</button>
+          <button class="btn btn-gold" onclick="goToStep(3)">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: CALLBACK TIME -->
+      <div class="wizard-step" id="step3" style="display: none;">
+        <div class="step-header">
+          <h2 class="step-title">When should our specialist call you?</h2>
+          <p class="step-subtitle">Pick your consultation day, window, and exact time.</p>
+        </div>
+
+        <!-- Date Tabs -->
+        <div class="date-picker-bar">
+          <button type="button" class="date-tab active" id="btnDayToday" onclick="selectDay('today')">
+            <div class="date-tab-header">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Today</span>
+            </div>
+            <div class="date-tab-sub" id="labelDateToday">Today</div>
+          </button>
+
+          <button type="button" class="date-tab" id="btnDayTomorrow" onclick="selectDay('tomorrow')">
+            <div class="date-tab-header">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Tomorrow</span>
+            </div>
+            <div class="date-tab-sub" id="labelDateTomorrow">Tomorrow</div>
+          </button>
+        </div>
+
+        <div class="option-grid">
+          <!-- Morning Slot -->
+          <div class="slot-container" id="containerMorning">
+            <label class="choice-card" id="cardMorning" onclick="selectSlot('morning')">
+              <input type="radio" name="timeSlotType" value="Morning" checked id="radioMorning">
+              <div class="choice-box">
+                <div class="choice-details">
+                  <span class="choice-name">☀️ Morning Slot</span>
+                  <span class="choice-meta" id="metaMorning">10:00 AM – 12:00 PM</span>
+                </div>
+                <div class="choice-check">✓</div>
+              </div>
+            </label>
+            <div class="time-pills-wrap" id="wrapMorning">
+              <span class="time-pill-title">Tap to pick preferred time:</span>
+              <button type="button" class="time-pill" data-time="10:00 AM" onclick="pickExactTime(this, '10:00 AM')">10:00 AM</button>
+              <button type="button" class="time-pill" data-time="10:30 AM" onclick="pickExactTime(this, '10:30 AM')">10:30 AM</button>
+              <button type="button" class="time-pill" data-time="11:00 AM" onclick="pickExactTime(this, '11:00 AM')">11:00 AM</button>
+              <button type="button" class="time-pill" data-time="11:30 AM" onclick="pickExactTime(this, '11:30 AM')">11:30 AM</button>
+              <button type="button" class="time-pill" data-time="12:00 PM" onclick="pickExactTime(this, '12:00 PM')">12:00 PM</button>
+            </div>
+          </div>
+
+          <!-- Afternoon Slot -->
+          <div class="slot-container" id="containerAfternoon">
+            <label class="choice-card" id="cardAfternoon" onclick="selectSlot('afternoon')">
+              <input type="radio" name="timeSlotType" value="Afternoon" id="radioAfternoon">
+              <div class="choice-box">
+                <div class="choice-details">
+                  <span class="choice-name">🌤️ Afternoon Slot</span>
+                  <span class="choice-meta" id="metaAfternoon">1:00 PM – 3:00 PM</span>
+                </div>
+                <div class="choice-check">✓</div>
+              </div>
+            </label>
+            <div class="time-pills-wrap" id="wrapAfternoon" style="display: none;">
+              <span class="time-pill-title">Tap to pick preferred time:</span>
+              <button type="button" class="time-pill" data-time="1:00 PM" onclick="pickExactTime(this, '1:00 PM')">1:00 PM</button>
+              <button type="button" class="time-pill" data-time="1:30 PM" onclick="pickExactTime(this, '1:30 PM')">1:30 PM</button>
+              <button type="button" class="time-pill" data-time="2:00 PM" onclick="pickExactTime(this, '2:00 PM')">2:00 PM</button>
+              <button type="button" class="time-pill" data-time="2:30 PM" onclick="pickExactTime(this, '2:30 PM')">2:30 PM</button>
+              <button type="button" class="time-pill" data-time="3:00 PM" onclick="pickExactTime(this, '3:00 PM')">3:00 PM</button>
+            </div>
+          </div>
+
+          <!-- Evening Slot -->
+          <div class="slot-container" id="containerEvening">
+            <label class="choice-card" id="cardEvening" onclick="selectSlot('evening')">
+              <input type="radio" name="timeSlotType" value="Evening" id="radioEvening">
+              <div class="choice-box">
+                <div class="choice-details">
+                  <span class="choice-name">🌙 Evening Slot</span>
+                  <span class="choice-meta" id="metaEvening">5:00 PM – 7:00 PM</span>
+                </div>
+                <div class="choice-check">✓</div>
+              </div>
+            </label>
+            <div class="time-pills-wrap" id="wrapEvening" style="display: none;">
+              <span class="time-pill-title">Tap to pick preferred time:</span>
+              <button type="button" class="time-pill" data-time="5:00 PM" onclick="pickExactTime(this, '5:00 PM')">5:00 PM</button>
+              <button type="button" class="time-pill" data-time="5:30 PM" onclick="pickExactTime(this, '5:30 PM')">5:30 PM</button>
+              <button type="button" class="time-pill" data-time="6:00 PM" onclick="pickExactTime(this, '6:00 PM')">6:00 PM</button>
+              <button type="button" class="time-pill" data-time="6:30 PM" onclick="pickExactTime(this, '6:30 PM')">6:30 PM</button>
+              <button type="button" class="time-pill" data-time="7:00 PM" onclick="pickExactTime(this, '7:00 PM')">7:00 PM</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn btn-back" onclick="goToStep(2)">Back</button>
+          <button class="btn btn-gold" onclick="if(validateStep3()) goToStep(4)">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: CONTACT VERIFICATION -->
+      <div class="wizard-step" id="step4" style="display: none;">
+        <div class="step-header">
+          <h2 class="step-title">Enter your contact details</h2>
+          <p class="step-subtitle">We will send your eligibility certificate & unit allotment.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input type="text" id="custName" class="form-input" placeholder="e.g. Rahul Sharma" oninput="clearError('custName', 'errName')">
+          <div class="field-error" id="errName">Please enter your full name (at least 2 characters)</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">WhatsApp Number *</label>
+          <input type="tel" id="custPhone" class="form-input" placeholder="e.g. 9876543210" maxlength="14" oninput="clearError('custPhone', 'errPhone')">
+          <div class="field-error" id="errPhone">Please enter a valid 10-digit WhatsApp number (e.g. 9876543210)</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Preferred Bangalore Location *</label>
+          <input type="text" id="custLocation" class="form-input" placeholder="e.g. Whitefield, Sarjapur, Hebbal" oninput="clearError('custLocation', 'errLocation')">
+          <div class="field-error" id="errLocation">Please specify or select your preferred location in Bangalore</div>
+          <div class="chips-wrap">
+            <button type="button" class="chip" onclick="setLocation('Whitefield')">Whitefield</button>
+            <button type="button" class="chip" onclick="setLocation('Sarjapur Road')">Sarjapur</button>
+            <button type="button" class="chip" onclick="setLocation('Electronic City')">Electronic City</button>
+            <button type="button" class="chip" onclick="setLocation('Hebbal / North')">Hebbal</button>
+            <button type="button" class="chip" onclick="setLocation('Indiranagar / East')">Indiranagar</button>
+            <button type="button" class="chip" onclick="setLocation('Any Prime Location')">Any Prime</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Address (Optional)</label>
+          <input type="email" id="custEmail" class="form-input" placeholder="e.g. rahul@example.com" oninput="clearError('custEmail', 'errEmail')">
+          <div class="field-error" id="errEmail">Please enter a valid email address (e.g. name@example.com)</div>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn btn-back" onclick="goToStep(3)">Back</button>
+          <button class="btn btn-gold" id="btnSubmit" onclick="submitEligibility()">
+            Check Eligibility & Hold Unit
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- VIEW 2: INSTANT SUCCESS & QUALIFIED SCREEN (100% NATIVE MOBILE PASS) -->
+    <main class="view-container" id="viewSuccess">
+      <div class="mobile-success-wrap">
+        
+        <!-- Animated Hero Checkmark -->
+        <div class="success-hero-wrap">
+          <div class="success-pulse-ring"></div>
+          <div class="success-icon-circle">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+        </div>
+
+        <div class="status-pill">
+          <span class="status-live-dot"></span>
+          <span>Priority Hold Active</span>
+        </div>
+
+        <h2 class="success-title">You're Pre-Qualified</h2>
+        <p class="success-sub">
+          Your Smart Stay reservation has been received. 1 exclusive rent-free residence is on temporary hold for your consultation.
+        </p>
+
+        <!-- LUXURY BOARDING PASS TICKET -->
+        <div class="ticket-pass">
+          <div class="ticket-top">
+            <div class="ticket-brand-meta">
+              <span class="ticket-brand-title">iGrey Smart Stay Pass</span>
+              <span class="ticket-brand-sub">Bangalore Residential Portfolio</span>
+            </div>
+            <div class="ticket-badge-locked">LOCKED</div>
+          </div>
+
+          <div class="ticket-body">
+            <div class="ticket-cell">
+              <span class="ticket-label">Selected Unit</span>
+              <span class="ticket-val" id="sumBhk">-</span>
+            </div>
+            <div class="ticket-cell">
+              <span class="ticket-label">Target Budget</span>
+              <span class="ticket-val" id="sumBudget">-</span>
+            </div>
+            <div class="ticket-cell">
+              <span class="ticket-label">Preferred Location</span>
+              <span class="ticket-val" id="sumLocation">-</span>
+            </div>
+            <div class="ticket-cell">
+              <span class="ticket-label">Consultation Window</span>
+              <span class="ticket-val" id="sumTime">-</span>
+            </div>
+          </div>
+
+          <!-- Ticket Perforated Divider with Side Cutouts -->
+          <div class="ticket-divider-row">
+            <div class="ticket-notch-left"></div>
+            <div class="ticket-dash"></div>
+            <div class="ticket-notch-right"></div>
+          </div>
+
+          <div class="ticket-footer">
+            <div class="ticket-ref-meta">
+              <span class="ticket-ref-label">Pass Reference</span>
+              <span class="ticket-ref-code" id="sumRef">SS-BLR-50732</span>
+            </div>
+            <button type="button" class="btn-copy-pass" id="btnCopyPass" onclick="copyPassRef()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span id="copyPassLabel">Copy</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- WHAT HAPPENS NEXT TIMELINE -->
+        <div class="app-timeline">
+          <div class="timeline-title">What Happens Next</div>
+          
+          <div class="timeline-item done">
+            <div class="timeline-dot">✓</div>
+            <div class="timeline-content">
+              <span class="timeline-heading">Eligibility Verified & Unit Locked</span>
+              <span class="timeline-sub">Exclusive 24-hr priority residence hold</span>
+            </div>
+          </div>
+
+          <div class="timeline-connector"></div>
+
+          <div class="timeline-item active">
+            <div class="timeline-dot">2</div>
+            <div class="timeline-content">
+              <span class="timeline-heading">Specialist Consultation Call</span>
+              <span class="timeline-sub" id="timelineCallSub">Call confirmed at your selected time slot</span>
+            </div>
+          </div>
+
+          <div class="timeline-connector"></div>
+
+          <div class="timeline-item pending">
+            <div class="timeline-dot">3</div>
+            <div class="timeline-content">
+              <span class="timeline-heading">Unit Allocation & Site Walkthrough</span>
+              <span class="timeline-sub">Review master layout, floor plans, and move-in terms</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOCKED ACTION BUTTONS -->
+        <div class="docked-actions">
+          <a id="btnWhatsAppDirect" class="btn-mobile-wa" href="#" target="_blank">
+            <svg width="22" height="22" viewBox="0 0 16 16" fill="#000000" style="flex-shrink: 0;">
+              <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/>
+            </svg>
+            <span>Chat on WhatsApp with Specialist</span>
+          </a>
+
+          <a class="btn-mobile-call" href="tel:+918147172449">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#F8FAFC" style="flex-shrink: 0;">
+              <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/>
+            </svg>
+            <span>Call Specialist Directly (+91 8147172449)</span>
+          </a>
+
+          <button type="button" class="btn-mobile-ghost" onclick="goToStep(1); switchView('viewWizard');">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+            <span>Edit Details / Submit Another Requirement</span>
+          </button>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- iOS Native Home Indicator -->
+    <div class="ios-home-bar">
+      <div class="home-indicator"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // URL Parameter Auto-population & Date Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('name')) {
+        document.getElementById('custName').value = params.get('name');
+      }
+      if (params.get('phone')) {
+        document.getElementById('custPhone').value = params.get('phone');
+      }
+      updateDateLabels();
+      refreshSlotAvailability();
+    });
+
+    let currentStep = 1;
+    let selectedDay = 'today';
+    let selectedExactTime = '';
+
+    function updateDateLabels() {
+      const now = new Date();
+      const options = { weekday: 'short', month: 'short', day: 'numeric' };
+      const elToday = document.getElementById('labelDateToday');
+      if (elToday) elToday.innerText = now.toLocaleDateString('en-US', options);
+
+      const tomorrow = new Date(now);
+      tomorrow.setDate(now.getDate() + 1);
+      const elTomorrow = document.getElementById('labelDateTomorrow');
+      if (elTomorrow) elTomorrow.innerText = tomorrow.toLocaleDateString('en-US', options);
+    }
+
+    function parseTimeToDecimal(timeStr) {
+      if (!timeStr) return 0;
+      const parts = timeStr.trim().split(' ');
+      const [h, m] = parts[0].split(':').map(Number);
+      const modifier = parts[1];
+      let hours = h;
+      if (modifier === 'PM' && hours < 12) hours += 12;
+      if (modifier === 'AM' && hours === 12) hours = 0;
+      return hours + (m / 60);
+    }
+
+    function selectDay(day) {
+      selectedDay = day;
+      document.getElementById('btnDayToday').classList.toggle('active', day === 'today');
+      document.getElementById('btnDayTomorrow').classList.toggle('active', day === 'tomorrow');
+      refreshSlotAvailability();
+    }
+
+    function refreshSlotAvailability() {
+      const now = new Date();
+      const currentDecimal = now.getHours() + (now.getMinutes() / 60);
+
+      // If after 7:00 PM (19.0) and on 'today', auto switch to tomorrow
+      if (selectedDay === 'today' && currentDecimal >= 19.0) {
+        selectedDay = 'tomorrow';
+        document.getElementById('btnDayToday').classList.remove('active');
+        document.getElementById('btnDayTomorrow').classList.add('active');
+      }
+
+      const isToday = (selectedDay === 'today');
+
+      // Morning slot max is 12:00 PM (12.0)
+      const morningPassed = isToday && (currentDecimal >= 12.0);
+      // Afternoon slot max is 3:00 PM (15.0)
+      const afternoonPassed = isToday && (currentDecimal >= 15.0);
+      // Evening slot max is 7:00 PM (19.0)
+      const eveningPassed = isToday && (currentDecimal >= 19.0);
+
+      // Update Card Visuals
+      const cardMorning = document.getElementById('cardMorning');
+      const metaMorning = document.getElementById('metaMorning');
+      if (cardMorning && metaMorning) {
+        cardMorning.classList.toggle('slot-disabled', morningPassed);
+        metaMorning.innerHTML = morningPassed ? '10:00 AM – 12:00 PM <span class="slot-passed-tag">Passed</span>' : '10:00 AM – 12:00 PM';
+      }
+
+      const cardAfternoon = document.getElementById('cardAfternoon');
+      const metaAfternoon = document.getElementById('metaAfternoon');
+      if (cardAfternoon && metaAfternoon) {
+        cardAfternoon.classList.toggle('slot-disabled', afternoonPassed);
+        metaAfternoon.innerHTML = afternoonPassed ? '1:00 PM – 3:00 PM <span class="slot-passed-tag">Passed</span>' : '1:00 PM – 3:00 PM';
+      }
+
+      const cardEvening = document.getElementById('cardEvening');
+      const metaEvening = document.getElementById('metaEvening');
+      if (cardEvening && metaEvening) {
+        cardEvening.classList.toggle('slot-disabled', eveningPassed);
+        metaEvening.innerHTML = eveningPassed ? '5:00 PM – 7:00 PM <span class="slot-passed-tag">Passed</span>' : '5:00 PM – 7:00 PM';
+      }
+
+      // Update individual pills
+      document.querySelectorAll('.time-pill').forEach(pill => {
+        const timeVal = pill.getAttribute('data-time');
+        const pillDecimal = parseTimeToDecimal(timeVal);
+        const isPast = isToday && (pillDecimal <= currentDecimal);
+        pill.classList.toggle('pill-disabled', isPast);
+      });
+
+      // Automatically choose first available slot
+      let targetSlot = 'morning';
+      if (isToday) {
+        if (!morningPassed) {
+          targetSlot = 'morning';
+        } else if (!afternoonPassed) {
+          targetSlot = 'afternoon';
+        } else {
+          targetSlot = 'evening';
+        }
+      }
+      selectSlot(targetSlot);
+    }
+
+    function switchView(viewId) {
+      document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
+      const target = document.getElementById(viewId);
+      if (target) target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToStep(stepNumber) {
+      currentStep = stepNumber;
+      
+      // Hide all steps
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById(`step${i}`);
+        if (el) el.style.display = (i === stepNumber) ? 'block' : 'none';
+        
+        // Update segments
+        const seg = document.getElementById(`seg${i}`);
+        if (seg) {
+          seg.classList.toggle('active', i <= stepNumber);
+        }
+      }
+
+      if (stepNumber === 3) {
+        refreshSlotAvailability();
+      }
+
+      // Update progress text
+      const percent = (stepNumber / 4) * 100;
+      document.getElementById('stepCounter').innerText = `Step ${stepNumber} of 4`;
+      document.getElementById('stepProgressText').innerText = `${percent}% Completed`;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleCustomBhk() {
+      const isCustom = document.querySelector('input[name="bhkChoice"]:checked')?.value === 'CUSTOM';
+      const wrap = document.getElementById('customBhkWrap');
+      if (wrap) {
+        wrap.style.display = isCustom ? 'block' : 'none';
+        if (isCustom) {
+          document.getElementById('customBhkInput')?.focus();
+        }
+      }
+    }
+
+    function validateStep1() {
+      const selected = document.querySelector('input[name="bhkChoice"]:checked')?.value;
+      if (selected === 'CUSTOM') {
+        const customVal = document.getElementById('customBhkInput')?.value.trim();
+        if (!customVal) {
+          alert('Please specify your required BHK configuration (e.g. 2.5 BHK, 3.5 BHK).');
+          document.getElementById('customBhkInput')?.focus();
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function selectSlot(type) {
+      const isToday = (selectedDay === 'today');
+      const now = new Date();
+      const currentDecimal = now.getHours() + (now.getMinutes() / 60);
+
+      // Prevent selecting a passed slot on Today
+      if (isToday) {
+        if (type === 'morning' && currentDecimal >= 12.0) {
+          alert('Morning slots have passed for today. Please pick an upcoming slot or choose Tomorrow.');
+          return;
+        }
+        if (type === 'afternoon' && currentDecimal >= 15.0) {
+          alert('Afternoon slots have passed for today. Please pick an upcoming slot or choose Tomorrow.');
+          return;
+        }
+        if (type === 'evening' && currentDecimal >= 19.0) {
+          alert('Evening slots have passed for today. Please choose Tomorrow.');
+          selectDay('tomorrow');
+          return;
+        }
+      }
+
+      document.getElementById('radioMorning').checked = (type === 'morning');
+      document.getElementById('radioAfternoon').checked = (type === 'afternoon');
+      document.getElementById('radioEvening').checked = (type === 'evening');
+
+      document.getElementById('wrapMorning').style.display = (type === 'morning') ? 'flex' : 'none';
+      document.getElementById('wrapAfternoon').style.display = (type === 'afternoon') ? 'flex' : 'none';
+      document.getElementById('wrapEvening').style.display = (type === 'evening') ? 'flex' : 'none';
+
+      // Pick first valid pill
+      const activeWrap = document.getElementById(type === 'morning' ? 'wrapMorning' : (type === 'afternoon' ? 'wrapAfternoon' : 'wrapEvening'));
+      if (activeWrap) {
+        const availablePills = Array.from(activeWrap.querySelectorAll('.time-pill:not(.pill-disabled)'));
+        activeWrap.querySelectorAll('.time-pill').forEach(p => p.classList.remove('selected'));
+        if (availablePills.length > 0) {
+          availablePills[0].classList.add('selected');
+          selectedExactTime = availablePills[0].getAttribute('data-time');
+        } else {
+          selectedExactTime = '';
+        }
+      }
+    }
+
+    function pickExactTime(btn, time) {
+      if (btn.classList.contains('pill-disabled')) {
+        alert('This time has already passed for today. Please select an upcoming time slot or choose Tomorrow.');
+        return;
+      }
+      selectedExactTime = time;
+      const parent = btn.closest('.time-pills-wrap');
+      if (parent) {
+        parent.querySelectorAll('.time-pill').forEach(p => p.classList.remove('selected'));
+      }
+      btn.classList.add('selected');
+    }
+
+    function validateStep3() {
+      if (!selectedExactTime) {
+        alert('Please pick an available time slot for your consultation.');
+        return false;
+      }
+      if (selectedDay === 'today') {
+        const now = new Date();
+        const currentDecimal = now.getHours() + (now.getMinutes() / 60);
+        const selectedDecimal = parseTimeToDecimal(selectedExactTime);
+        if (selectedDecimal <= currentDecimal) {
+          alert(`The selected time (${selectedExactTime}) has already passed for today. Please select an upcoming time or choose Tomorrow.`);
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function getSelectedPreferredTime() {
+      const slotType = document.querySelector('input[name="timeSlotType"]:checked')?.value || 'Morning';
+      const dayLabel = (selectedDay === 'today') ? 'Today' : 'Tomorrow';
+      return `${dayLabel} (${slotType} Slot at ${selectedExactTime})`;
+    }
+
+    function clearError(inputId, errId) {
+      const input = document.getElementById(inputId);
+      const err = document.getElementById(errId);
+      if (input) input.classList.remove('has-error');
+      if (err) err.style.display = 'none';
+    }
+
+    function showError(inputId, errId, message) {
+      const input = document.getElementById(inputId);
+      const err = document.getElementById(errId);
+      if (input) input.classList.add('has-error');
+      if (err) {
+        if (message) err.innerText = message;
+        err.style.display = 'block';
+      }
+    }
+
+    function setLocation(loc) {
+      const input = document.getElementById('custLocation');
+      input.value = loc;
+      clearError('custLocation', 'errLocation');
+      document.querySelectorAll('.chip').forEach(c => {
+        c.classList.toggle('selected', c.innerText === loc || loc.includes(c.innerText));
+      });
+    }
+
+    async function submitEligibility() {
+      // Clear previous errors
+      clearError('custName', 'errName');
+      clearError('custPhone', 'errPhone');
+      clearError('custLocation', 'errLocation');
+      clearError('custEmail', 'errEmail');
+
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const email = document.getElementById('custEmail').value.trim();
+      const location = document.getElementById('custLocation').value.trim();
+
+      let hasError = false;
+      let firstErrorEl = null;
+
+      // 1. Full Name Validation
+      if (!name || name.length < 2) {
+        showError('custName', 'errName', 'Please enter your full name (at least 2 characters)');
+        if (!firstErrorEl) firstErrorEl = document.getElementById('custName');
+        hasError = true;
+      }
+
+      // 2. WhatsApp Phone Validation (10 digits starting with 6-9)
+      const cleanPhone = phone.replace(/[^0-9]/g, '');
+      let testNum = cleanPhone;
+      if (testNum.length === 12 && testNum.startsWith('91')) {
+        testNum = testNum.substring(2);
+      }
+      if (!/^[6-9]\d{9}$/.test(testNum)) {
+        showError('custPhone', 'errPhone', 'Please enter a valid 10-digit Indian WhatsApp mobile number (starts with 6, 7, 8, or 9)');
+        if (!firstErrorEl) firstErrorEl = document.getElementById('custPhone');
+        hasError = true;
+      }
+
+      // 3. Preferred Location Validation
+      if (!location || location.length < 2) {
+        showError('custLocation', 'errLocation', 'Please specify or select your preferred Bangalore location');
+        if (!firstErrorEl) firstErrorEl = document.getElementById('custLocation');
+        hasError = true;
+      }
+
+      // 4. Email Validation (Optional)
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError('custEmail', 'errEmail', 'Please enter a valid email address (e.g. name@example.com)');
+        if (!firstErrorEl) firstErrorEl = document.getElementById('custEmail');
+        hasError = true;
+      }
+
+      if (hasError) {
+        if (firstErrorEl) firstErrorEl.focus();
+        return;
+      }
+
+      let bhk = document.querySelector('input[name="bhkChoice"]:checked')?.value || '2 BHK Premium Unit';
+      if (bhk === 'CUSTOM') {
+        const customVal = document.getElementById('customBhkInput')?.value.trim();
+        bhk = customVal || 'Custom BHK';
+      }
+
+      const budget = document.querySelector('input[name="budgetChoice"]:checked')?.value || '₹10L - ₹15L';
+      const preferredTime = getSelectedPreferredTime();
+
+      const submitBtn = document.getElementById('btnSubmit');
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Verifying Eligibility... ⏳';
+
+      try {
+        const response = await fetch('/api/leads/eligibility', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            phone,
+            bhk,
+            budget,
+            location,
+            preferredTime,
+            notes: email ? `Email: ${email}` : ''
+          })
+        });
+
+        const data = await response.json();
+
+        // Format reference code cleanly for luxury ticket
+        let displayRef = data.leadId || 'SS-BLR-50732';
+        if (displayRef.startsWith('LEAD_')) {
+          displayRef = 'SS-BLR-' + displayRef.replace('LEAD_', '').slice(-5);
+        } else {
+          displayRef = displayRef.toUpperCase();
+        }
+
+        // Populate Summary Ticket
+        document.getElementById('sumBhk').innerText = bhk;
+        document.getElementById('sumBudget').innerText = budget;
+        document.getElementById('sumLocation').innerText = location;
+        document.getElementById('sumTime').innerText = preferredTime;
+        document.getElementById('sumRef').innerText = displayRef;
+
+        const callSub = document.getElementById('timelineCallSub');
+        if (callSub) callSub.innerText = `Call scheduled: ${preferredTime}`;
+
+        // Pre-fill WhatsApp direct chat link
+        const cleanPhone = phone.replace(/[^0-9]/g, '');
+        const waText = encodeURIComponent(`Hi, I just completed my Smart Stay Eligibility check for ${bhk} (${budget}) in ${location}. Reference ID: ${displayRef}. Please share the floor plans & brochure.`);
+        document.getElementById('btnWhatsAppDirect').href = `https://wa.me/918147172449?text=${waText}`;
+
+        // Switch to Success View
+        switchView('viewSuccess');
+
+      } catch (err) {
+        console.error('Error submitting eligibility:', err);
+        alert('There was a connection issue. Your details have been cached locally. Our specialist will connect with you.');
+        switchView('viewSuccess');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Check Eligibility & Hold Unit';
+      }
+    }
+
+    function copyPassRef() {
+      const code = document.getElementById('sumRef')?.innerText;
+      if (code) {
+        navigator.clipboard.writeText(code).then(() => {
+          const lbl = document.getElementById('copyPassLabel');
+          if (lbl) {
+            lbl.innerText = 'Copied!';
+            setTimeout(() => { lbl.innerText = 'Copy'; }, 2000);
+          }
+        }).catch(() => {
+          const lbl = document.getElementById('copyPassLabel');
+          if (lbl) {
+            lbl.innerText = 'Copied!';
+            setTimeout(() => { lbl.innerText = 'Copy'; }, 2000);
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

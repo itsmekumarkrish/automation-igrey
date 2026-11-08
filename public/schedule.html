@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iGrey SMART STAY - Schedule a Call</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0B0F19;
+      --card-bg: #151D2E;
+      --accent: #10B981;
+      --accent-glow: rgba(16, 185, 129, 0.2);
+      --border: #232F48;
+      --muted: #94A3B8;
+      --text: #F8FAFC;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .input-group {
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #CBD5E1;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    input,
+    select {
+      width: 100%;
+      background: #0F172A;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .btn {
+      width: 100%;
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+    }
+
+    .success-box {
+      display: none;
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 48px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card" id="scheduleCard">
+      <div id="formSection">
+        <div class="badge">1-on-1 Consultation</div>
+        <h1>Schedule a Priority Call</h1>
+        <p>Book a dedicated discussion with our Smart Stay investment specialist.</p>
+
+        <form id="callForm">
+          <div class="input-group">
+            <label>Your Name</label>
+            <input type="text" id="name" required placeholder="Full Name">
+          </div>
+          <div class="input-group">
+            <label>WhatsApp Number</label>
+            <input type="tel" id="phone" required placeholder="Mobile Number">
+          </div>
+          <div class="input-group">
+            <label>Preferred Date</label>
+            <input type="date" id="callDate" required>
+          </div>
+          <div class="input-group">
+            <label>Preferred Time Slot</label>
+            <select id="timeSlot" required>
+              <option value="10:30 AM - 11:30 AM">10:30 AM - 11:30 AM (Morning)</option>
+              <option value="02:00 PM - 03:00 PM">02:00 PM - 03:00 PM (Afternoon)</option>
+              <option value="04:30 PM - 05:30 PM">04:30 PM - 05:30 PM (Evening)</option>
+              <option value="07:00 PM - 08:00 PM">07:00 PM - 08:00 PM (Night)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn" id="bookBtn">Confirm Call Appointment</button>
+        </form>
+      </div>
+
+      <div class="success-box" id="successBox">
+        <div class="icon">✓</div>
+        <h2>Call Booked!</h2>
+        <p style="margin-top: 8px;">Our team has reserved your slot for <strong id="bookedSlot"
+            style="color: #10B981;"></strong>. We will reach out on WhatsApp/phone at that exact time.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Set min date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('callDate').min = today;
+    document.getElementById('callDate').value = today;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('phone')) document.getElementById('phone').value = urlParams.get('phone');
+    if (urlParams.get('name')) document.getElementById('name').value = urlParams.get('name');
+
+    document.getElementById('callForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const callDate = document.getElementById('callDate').value;
+      const timeSlot = document.getElementById('timeSlot').value;
+
+      document.getElementById('bookBtn').innerText = 'Booking...';
+
+      try {
+        await fetch('/api/leads/eligibility', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            phone,
+            preferredTime: `${callDate} at ${timeSlot}`,
+            bhk: 'Schedule Call Lead',
+            budget: 'Inquiry',
+            notes: 'Requested booked appointment'
+          })
+        });
+
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('bookedSlot').innerText = `${callDate} (${timeSlot})`;
+        document.getElementById('successBox').style.display = 'block';
+      } catch (err) {
+        alert('Booking failed. Please check connection.');
+        document.getElementById('bookBtn').innerText = 'Confirm Call Appointment';
+      }
+    });
+  </script>
+</body>
+
+</html>

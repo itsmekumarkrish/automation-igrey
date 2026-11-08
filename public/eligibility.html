@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iGrey SMART STAY - Check Your Eligibility</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0F172A;
+      --accent: #10B981;
+      --accent-glow: rgba(16, 185, 129, 0.2);
+      --gold: #F59E0B;
+      --bg: #0B0F19;
+      --card-bg: #151D2E;
+      --text: #F8FAFC;
+      --muted: #94A3B8;
+      --border: #232F48;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #CBD5E1;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .bhk-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .option-card {
+      position: relative;
+    }
+
+    .option-card input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .option-box {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .option-card input:checked + .option-box {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      color: #fff;
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .input-field, select {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: #fff;
+      font-size: 15px;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .input-field:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .time-chips {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(16, 185, 129, 0.5);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .perks-list {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .perk-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .perk-item span {
+      color: var(--accent);
+    }
+
+    /* Success Modal */
+    .success-container {
+      display: none;
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .success-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 18px;
+    }
+
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #25D366;
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      margin-top: 18px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div class="badge">✦ Exclusive Smart Stay Offer</div>
+      <h1>Own a Home & Stay<br><span style="color: #10B981;">Rent-Free for 3 Years</span></h1>
+      <p class="subtitle">Complete the 1-minute check to see eligible units and unlock exclusive pricing.</p>
+    </div>
+
+    <div class="card" id="formCard">
+      <form id="eligibilityForm">
+        <!-- BHK Selection -->
+        <div class="form-group">
+          <label>1. Select Unit Type</label>
+          <div class="bhk-grid">
+            <label class="option-card">
+              <input type="radio" name="bhk" value="1 BHK" checked>
+              <div class="option-box">1 BHK</div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="bhk" value="2 BHK">
+              <div class="option-box">2 BHK</div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="bhk" value="3 BHK">
+              <div class="option-box">3 BHK</div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Budget Selection -->
+        <div class="form-group">
+          <label>2. Expected Budget Range</label>
+          <select id="budget" name="budget" required>
+            <option value="₹40 Lakh - ₹60 Lakh">₹40 Lakh - ₹60 Lakh</option>
+            <option value="₹60 Lakh - ₹85 Lakh" selected>₹60 Lakh - ₹85 Lakh</option>
+            <option value="₹85 Lakh - ₹1.2 Cr">₹85 Lakh - ₹1.2 Cr</option>
+            <option value="₹1.2 Cr+">₹1.2 Cr+</option>
+          </select>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="form-group">
+          <label>3. Your Name</label>
+          <input type="text" id="name" name="name" class="input-field" placeholder="Full Name" required>
+        </div>
+
+        <div class="form-group">
+          <label>4. WhatsApp Mobile Number</label>
+          <input type="tel" id="phone" name="phone" class="input-field" placeholder="e.g. 9876543210" required>
+        </div>
+
+        <!-- Preferred Call Window -->
+        <div class="form-group">
+          <label>5. Best Time for Property Advisor to Call</label>
+          <div class="time-chips">
+            <label class="option-card">
+              <input type="radio" name="preferredTime" value="Morning (10 AM - 1 PM)" checked>
+              <div class="option-box">10 AM - 1 PM</div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="preferredTime" value="Afternoon (1 PM - 5 PM)">
+              <div class="option-box">1 PM - 5 PM</div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="preferredTime" value="Evening (5 PM - 8 PM)">
+              <div class="option-box">5 PM - 8 PM</div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="preferredTime" value="Anytime">
+              <div class="option-box">Anytime</div>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span>Check My Eligibility & View Units</span>
+          <span>→</span>
+        </button>
+
+        <div class="perks-list">
+          <div class="perk-item"><span>✓</span> 100% Free consultation & priority allotment</div>
+          <div class="perk-item"><span>✓</span> Only 5 exclusive Smart Stay units remaining</div>
+          <div class="perk-item"><span>✓</span> Zero spam guarantee - WhatsApp verified updates</div>
+        </div>
+      </form>
+
+      <!-- Success Screen -->
+      <div class="success-container" id="successScreen">
+        <div class="success-icon">✓</div>
+        <h2 style="font-size: 22px; margin-bottom: 8px;">Eligibility Verified!</h2>
+        <p style="color: var(--muted); font-size: 14px; line-height: 1.5; margin-bottom: 16px;">
+          Thank you, <strong id="leadDisplayName" style="color: #fff;"></strong>! We have registered your inquiry for <strong id="leadDisplayBhk" style="color: #10B981;"></strong>. Our Smart Stay manager will connect with you during your chosen call slot.
+        </p>
+        <a href="https://wa.me/918147172449?text=Hi%20iGrey%2C%20I%20just%20submitted%20my%20Smart%20Stay%20eligibility%20form." target="_blank" class="whatsapp-btn">
+          💬 Chat with us directly on WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Pre-fill query parameters if present (e.g. from WhatsApp click)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('phone')) {
+      document.getElementById('phone').value = urlParams.get('phone').replace(/[^0-9]/g, '').slice(-10);
+    }
+    if (urlParams.get('name')) {
+      document.getElementById('name').value = urlParams.get('name');
+    }
+
+    const form = document.getElementById('eligibilityForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Verifying Eligibility...';
+
+      const formData = new FormData(form);
+      const payload = {
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        bhk: formData.get('bhk'),
+        budget: formData.get('budget'),
+        preferredTime: formData.get('preferredTime')
+      };
+
+      try {
+        const response = await fetch('/api/leads/eligibility', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          form.style.display = 'none';
+          document.getElementById('leadDisplayName').innerText = payload.name;
+          document.getElementById('leadDisplayBhk').innerText = payload.bhk;
+          document.getElementById('successScreen').style.display = 'block';
+        } else {
+          alert('Submission error: ' + (data.error || 'Please try again.'));
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Check My Eligibility & View Units →';
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Could not submit form. Please verify network connection.');
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Check My Eligibility & View Units →';
+      }
+    });
+  </script>
+</body>
+</html>
+

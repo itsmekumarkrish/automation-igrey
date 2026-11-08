@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Environment Variables & Secrets
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# System & OS Files
+.DS_Store
+Thumbs.db
+
+# IDE Files
+.vscode/
+.idea/
+
+# Lead Database & Contact Exports (Kept private for privacy)
+data/leads.json
+!data/.gitkeep
+*.csv
+*.xlsx
