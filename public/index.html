@@ -1786,7 +1786,7 @@
 
         // Pre-fill WhatsApp direct chat link
         const cleanPhone = phone.replace(/[^0-9]/g, '');
-        const waText = encodeURIComponent(`Hi, I just completed my Smart Stay Eligibility check for ${bhk} (${budget}) in ${location}. Reference ID: ${displayRef}. Please share the floor plans & brochure.`);
+        const waText = encodeURIComponent(`Hi, I just completed my Smart Stay Eligibility check for ${bhk} (${budget}) in ${location}. Reference ID: ${displayRef}.`);
         document.getElementById('btnWhatsAppDirect').href = `https://wa.me/918147172449?text=${waText}`;
 
         // Switch to Success View
