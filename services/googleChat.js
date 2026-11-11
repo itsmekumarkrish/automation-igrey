@@ -45,6 +45,13 @@ async function sendLeadAlert(lead) {
                 },
                 {
                   decoratedText: {
+                    topLabel: 'Email Address',
+                    text: lead.email ? `<b>${lead.email}</b>` : '<i>Not provided</i>',
+                    startIcon: { knownIcon: 'EMAIL' }
+                  }
+                },
+                {
+                  decoratedText: {
                     topLabel: 'Unit Preference',
                     text: lead.bhk || 'Not specified',
                     startIcon: { knownIcon: 'DESCRIPTION' }

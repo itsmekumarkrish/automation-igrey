@@ -83,6 +83,7 @@
           <th>Date</th>
           <th>Lead Name</th>
           <th>WhatsApp Phone</th>
+          <th>Email</th>
           <th>Unit Preference</th>
           <th>Budget</th>
           <th>Preferred Slot</th>
@@ -91,7 +92,7 @@
         </tr>
       </thead>
       <tbody id="leadsBody">
-        <tr><td colspan="8" style="text-align: center; color: var(--muted);">Loading leads...</td></tr>
+        <tr><td colspan="9" style="text-align: center; color: var(--muted);">Loading leads...</td></tr>
       </tbody>
     </table>
   </div>
@@ -125,7 +126,7 @@
 
         const tbody = document.getElementById('leadsBody');
         if (leads.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--muted); padding: 30px;">No leads captured yet. Submit a test form on <a href="/eligibility.html" target="_blank" style="color: var(--accent);">Eligibility Form</a> to test!</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--muted); padding: 30px;">No leads captured yet. Submit a test form on <a href="/" target="_blank" style="color: var(--accent);">Eligibility Form</a> to test!</td></tr>';
           return;
         }
 
@@ -143,6 +144,7 @@
               <td>${dateStr}</td>
               <td><strong>${l.name || 'Anonymous'}</strong></td>
               <td>${l.phone || '-'}</td>
+              <td>${l.email ? `<a href="mailto:${l.email}" style="color: var(--accent); text-decoration: none;">${l.email}</a>` : '-'}</td>
               <td>${l.bhk || '-'}</td>
               <td>${l.budget || '-'}</td>
               <td>${l.preferredTime || '-'}</td>

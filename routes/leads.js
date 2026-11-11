@@ -9,7 +9,7 @@ const googleChat = require('../services/googleChat');
  */
 router.post('/eligibility', async (req, res) => {
   try {
-    const { name, phone, bhk, budget, preferredTime, location, notes } = req.body;
+    const { name, phone, email, bhk, budget, preferredTime, location, notes } = req.body;
 
     if (!phone || !name) {
       return res.status(400).json({ success: false, error: 'Name and Phone Number are required.' });
@@ -18,6 +18,7 @@ router.post('/eligibility', async (req, res) => {
     const lead = storage.saveLead({
       name,
       phone,
+      email: email || '',
       bhk: bhk || 'Not specified',
       budget: budget || 'Not specified',
       location: location || 'Bangalore',
@@ -42,7 +43,7 @@ router.post('/eligibility', async (req, res) => {
       leadName: name,
       phone: phone,
       action: 'New Eligibility Form Submission',
-      details: `Unit: ${bhk} | Budget: ${budget} | Loc: ${location || 'Bangalore'} | Preferred Time: ${preferredTime}`
+      details: `Email: ${email || 'N/A'} | Unit: ${bhk} | Budget: ${budget} | Loc: ${location || 'Bangalore'} | Preferred Time: ${preferredTime}`
     });
 
     // 3. Send WhatsApp confirmation message to customer
@@ -111,13 +112,14 @@ router.get('/', (req, res) => {
  */
 router.get('/export-csv', (req, res) => {
   const leads = storage.getLeads();
-  const headers = ['ID', 'Date', 'Name', 'Phone', 'BHK Choice', 'Budget', 'Preferred Call Time', 'Action', 'Notes'];
+  const headers = ['ID', 'Date', 'Name', 'Phone', 'Email', 'BHK Choice', 'Budget', 'Preferred Call Time', 'Action', 'Notes'];
 
   const rows = leads.map(l => [
     l.id || '',
     l.createdAt || '',
     `"${(l.name || '').replace(/"/g, '""')}"`,
     `"${(l.phone || '').replace(/"/g, '""')}"`,
+    `"${(l.email || '').replace(/"/g, '""')}"`,
     `"${(l.bhk || '').replace(/"/g, '""')}"`,
     `"${(l.budget || '').replace(/"/g, '""')}"`,
     `"${(l.preferredTime || '').replace(/"/g, '""')}"`,

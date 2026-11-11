@@ -297,9 +297,14 @@
           <input type="tel" id="phone" name="phone" class="input-field" placeholder="e.g. 9876543210" required>
         </div>
 
+        <div class="form-group">
+          <label>5. Email Address</label>
+          <input type="email" id="email" name="email" class="input-field" placeholder="e.g. rahul@example.com" required>
+        </div>
+
         <!-- Preferred Call Window -->
         <div class="form-group">
-          <label>5. Best Time for Property Advisor to Call</label>
+          <label>6. Best Time for Property Advisor to Call</label>
           <div class="time-chips">
             <label class="option-card">
               <input type="radio" name="preferredTime" value="Morning (10 AM - 1 PM)" checked>
@@ -368,6 +373,7 @@
       const payload = {
         name: formData.get('name'),
         phone: formData.get('phone'),
+        email: formData.get('email'),
         bhk: formData.get('bhk'),
         budget: formData.get('budget'),
         preferredTime: formData.get('preferredTime')
